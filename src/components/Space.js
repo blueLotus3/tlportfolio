@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 
-const Home = () => {
+const Space = () => {
     // references <canvas> element
   const canvasRef = useRef(null);
 
@@ -222,7 +222,8 @@ const Home = () => {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="canvasRef" />;
+  return <canvas ref={canvasRef} className="canvasRef" />
+ 
 };
 
-export default Home;
+export default Space;
