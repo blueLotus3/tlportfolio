@@ -1,24 +1,21 @@
-import React, { useState }from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Nav = () => {
-    const [ isOpen, setIsOpen ] = useState(false);
+
     return (
+        <header className="header">
         <nav className="navbar">
         <div className="logo"><Link to='/'>Logo</Link></div>
-
-        <div className={`nav-links ${isOpen ? "open": ""}`}>
-            <Link to ='/' onClick={() => setIsOpen(false)}><p>Home</p></Link>
-            <Link to ='/projects' onClick={() => setIsOpen(false)}><p>Projects</p></Link>
-            <Link to ='/contact' onClick={() => setIsOpen(false)}><p>Contact</p></Link>
-            </div>
-        <div className="hamburger" onClick={() => setIsOpen(!isOpen)}>
-            <div className="bar"></div>
-            <div className="bar"></div>
-            <div className="bar"></div>
-        </div>
-
+        <input className="menu-btn" type="checkbox" id="menu-btn" />
+        <label className="menu-icon" htmlFor="menu-btn" id="nav"><span className="navicon"></span></label>
+        <ul className="nav-menu">
+        <li className="nav-item"><Link to ='/'><p className="nav-link">Home</p></Link></li>
+        <li className="nav-item"><Link to ='/projects'><p className="nav-link">Projects</p></Link></li>
+        <li classname="nav-item"><Link to ='/contact'><p className="nav-link">Contact</p></Link></li>
+        </ul>
         </nav>
+        </header>
     ) 
 }
 
