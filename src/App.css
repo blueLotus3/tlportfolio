@@ -34,3 +34,67 @@ h2 {
   text-align: center;
  color: green;
 }
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: blueviolet;
+  padding: 0.75rem 1.5rem;
+  position: relative;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links p {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.nav-links p:hover {
+  color: green;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.bar {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 4px 0;
+  transition: 0.4s;
+}
+
+@media (max-width: 760px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    background: blueviolet;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    display: none;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+}
