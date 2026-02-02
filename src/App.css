@@ -1,7 +1,6 @@
 html, body {
   margin: 0;
   padding: 0;
-  overflow: hidden;
   background: black;
   height: 100%;
   width: 100%;
@@ -133,6 +132,7 @@ p .nav-link {
 }
 
 .logo {
+  
   font-size: 1.5rem;
   font-weight: bold;
 }
@@ -185,5 +185,15 @@ p .nav-link {
   .header li p:hover,
   .header .menu-btn:hover {
     background-color: #f4f4f4;
+  }
+
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .skills img {
+    border-radius: 18px;
   }
 }
