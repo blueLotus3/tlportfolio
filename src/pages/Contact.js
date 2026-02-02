@@ -6,6 +6,7 @@ const Contact = () => {
     const [status, setStatus] = useState("");
     const [statusColor, setStatusColor] = useState("");
     const [loading, setLoading] = useState(false);
+    console.log("Public key: ", process.env.REACT_APP_EMAILJS_PUBLIC_KEY);
   
     const sendEmail = (e) => {
       e.preventDefault();
@@ -34,7 +35,6 @@ const Contact = () => {
     return (
       <form ref={formRef} onSubmit={sendEmail} className="contact-form">
         <h2>Contact Me</h2>
-  
         <input
           type="text"
           name="from_name"
@@ -65,7 +65,6 @@ const Contact = () => {
           </p>
         )}
       </form>
-  
   
   );
 }
