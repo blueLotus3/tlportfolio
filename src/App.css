@@ -160,6 +160,103 @@ p .nav-link {
   color: #482ff7;
 }
 
+/* contact form */
+.contact-form {
+  max-width: 420px;
+  margin: 80px auto;
+  padding: 32px;
+
+  /* Glass / space effect */
+  background: rgba(10, 15, 30, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  border-radius: 14px;
+  color: #e5e7eb;
+
+  /* Subtle cosmic glow */
+  box-shadow:
+    0 0 25px rgba(56, 189, 248, 0.15),
+    inset 0 0 30px rgba(255, 255, 255, 0.02);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.contact-form h2 {
+  text-align: center;
+  margin-bottom: 22px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+
+  /* Star-like glow */
+  color: #f8fafc;
+  text-shadow: 0 0 10px rgba(147, 197, 253, 0.6);
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 16px;
+
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+
+  color: #f1f5f9;
+  font-size: 14px;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: #94a3b8;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+}
+
+.contact-form textarea {
+  resize: none;
+  height: 130px;
+}
+
+.contact-form button {
+  width: 100%;
+  padding: 14px;
+
+  background: linear-gradient(
+    135deg,
+    #38bdf8,
+    #6366f1
+  );
+
+  border: none;
+  border-radius: 8px;
+
+  color: #020617;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+
+  box-shadow: 0 0 18px rgba(99, 102, 241, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.8);
+}
+
+#form-status {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 14px;
+}
+
 @media (max-width: 768px) {
   body {
     margin: 0;
@@ -187,6 +284,7 @@ p .nav-link {
     background-color: #f4f4f4;
   }
 
+  /* about skills section mobile */
   .skills {
     display: flex;
     flex-wrap: wrap;
@@ -195,5 +293,43 @@ p .nav-link {
 
   .skills img {
     border-radius: 18px;
+  }
+
+  /* contact form for mobile*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+  .contact-form {
+    margin: 40px 16px;
+    padding: 24px;
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
+  .contact-form h2 {
+    font-size: 20px;
+    margin-bottom: 18px;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    font-size: 16px; /* Prevents iOS zoom */
+    padding: 14px;
+  }
+
+  .contact-form textarea {
+    height: 120px;
+  }
+
+  .contact-form button {
+    font-size: 16px;
+    padding: 16px;
+  }
+
+  #form-status {
+    font-size: 13px;
   }
 }

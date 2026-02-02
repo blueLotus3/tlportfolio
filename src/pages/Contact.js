@@ -1,12 +1,50 @@
-import React from 'react'
+import { useRef, useState } from "react";
+import emailjs from "emailjs-com";
 
 const Contact = () => {
+    const formRef = useRef(null);
+    const [status, setStatus] = useState("");
+    const [statusColor, setStatusColor] = useState("");
+  
+    const sendEmail = (e) => {
+      e.preventDefault();
+  
+      emailjs.sendForm(
+        import.meta.env.REACT_APP_EMAILJS_SERVICE_ID,
+        import.meta.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+        formRef.current,
+        import.meta.env.REACT_APP_EMAILJS_PUBLIC_KEY
+      )
+      .then(
+        () => {
+          setStatus("Message sent successfully!");
+          setStatusColor("#22c55e");
+          formRef.current.reset();
+        },
+        () => {
+          setStatus("Something went wrong. Try again.");
+          setStatusColor("#ef4444");
+        }
+      );
+    };
+  
     return (
-        <div className="contactContent">
-            <p>Here is my contact info page</p>
-        </div>
-
-    )
+      <form ref={formRef} onSubmit={sendEmail} className="contact-form">
+        <h2>Contact Me</h2>
+  
+        <input type="text" name="from_name" placeholder="Your Name" required />
+        <input type="email" name="from_email" placeholder="Your Email" required />
+        <textarea name="message" placeholder="Your Message" required />
+  
+        <button type="submit">Send Message</button>
+  
+        {status && (
+          <p id="form-status" style={{ color: statusColor }}>
+            {status}
+          </p>
+        )}
+      </form>
+  
+  );
 }
-
 export default Contact;
