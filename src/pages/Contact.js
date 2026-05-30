@@ -1,12 +1,11 @@
 import { useRef, useState } from "react";
-import emailjs from "emailjs-com";
+import emailjs from "@emailjs/browser";
 
 const Contact = () => {
     const formRef = useRef(null);
     const [status, setStatus] = useState("");
     const [statusColor, setStatusColor] = useState("");
     const [loading, setLoading] = useState(false);
-    console.log("Public key: ", process.env.REACT_APP_EMAILJS_PUBLIC_KEY);
   
     const sendEmail = (e) => {
       e.preventDefault();
@@ -19,7 +18,7 @@ const Contact = () => {
           formRef.current,
           process.env.REACT_APP_EMAILJS_PUBLIC_KEY
         )
-        .then(() => {
+        .then((result) => {
           setStatus("Message sent successfully!");
           setStatusColor("#22c55e");
           setLoading(false);
@@ -31,6 +30,7 @@ const Contact = () => {
           setLoading(false);
         });
     };
+    console.log("Public key: ", process.env.REACT_APP_EMAILJS_PUBLIC_KEY);
   
     return (
       <form ref={formRef} onSubmit={sendEmail} className="contact-form">
