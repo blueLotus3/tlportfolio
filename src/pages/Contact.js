@@ -13,12 +13,12 @@ const Contact = () => {
   
       emailjs
         .sendForm(
-          process.env.REACT_APP_EMAILJS_SERVICE_ID,
-          process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+          import.meta.env.REACT_APP_EMAILJS_SERVICE_ID,
+          import.meta.env.REACT_APP_EMAILJS_TEMPLATE_ID,
           formRef.current,
-          process.env.REACT_APP_EMAILJS_PUBLIC_KEY
+          import.meta.env.REACT_APP_EMAILJS_PUBLIC_KEY
         )
-        .then((result) => {
+        .then(() => {
           setStatus("Message sent successfully!");
           setStatusColor("#22c55e");
           setLoading(false);
@@ -30,7 +30,7 @@ const Contact = () => {
           setLoading(false);
         });
     };
-    console.log("Public key: ", process.env.REACT_APP_EMAILJS_PUBLIC_KEY);
+    console.log("Public key: ", import.meta.env.REACT_APP_EMAILJS_PUBLIC_KEY);
   
     return (
       <form ref={formRef} onSubmit={sendEmail} className="contact-form">
