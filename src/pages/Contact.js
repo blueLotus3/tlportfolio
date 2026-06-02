@@ -1,37 +1,41 @@
 import { useRef, useState } from "react";
-import emailjs from "@emailjs/browser";
 
 const Contact = () => {
   const formRef = useRef(null);
   const [status, setStatus] = useState("");
-  const [statusColor, setStatusColor] = useState("");
   const [loading, setLoading] = useState(false);
 
   const sendEmail = async (e) => {
     e.preventDefault();
     setLoading(true);
     setStatus("Sending...");
-  
+
+    const formData = {
+      name: formRef.current.name.value,
+      email: formRef.current.email.value,
+      message: formRef.current.message.value,
+    };
+
     try {
       const res = await fetch("http://localhost:5000/send-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name: formRef.current.name.value,
-          email: formRef.current.email.value,
-          message: formRef.current.message.value,
-        }),
+        body: JSON.stringify(formData),
       });
-  
-      if (!res.ok) throw new Error("Failed");
-  
-      setStatus("Message sent!");
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to send message");
+      }
+
+      setStatus("Message sent successfully!");
       formRef.current.reset();
     } catch (err) {
-      console.error(err);
-      setStatus("Failed to send.");
+      console.error("Send error:", err);
+      setStatus("Failed to send message.");
     } finally {
       setLoading(false);
     }
@@ -43,14 +47,14 @@ const Contact = () => {
 
       <input
         type="text"
-        name="from_name"
+        name="name"
         placeholder="Your Name"
         required
       />
 
       <input
         type="email"
-        name="from_email"
+        name="email"
         placeholder="Your Email"
         required
       />
@@ -66,7 +70,7 @@ const Contact = () => {
       </button>
 
       {status && (
-        <p style={{ color: statusColor, fontWeight: "bold" }}>
+        <p style={{ fontWeight: "bold" }}>
           {status}
         </p>
       )}
