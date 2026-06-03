@@ -6,7 +6,27 @@ const nodemailer = require("nodemailer");
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = [
+    "http://localhost:3000",
+    "netlify.troylemons.app"
+  ];
+  
+  app.use(cors({
+    origin: function (origin, callback) {
+      // allow requests with no origin (like Postman / server-to-server)
+      if (!origin) return callback(null, true);
+  
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+  
+      return callback(new Error("Blocked by CORS"));
+    },
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type"]
+  }));
+  
+
 app.use(express.json());
 
 const transporter = nodemailer.createTransport({
