@@ -17,7 +17,7 @@ const Contact = () => {
     };
 
     try {
-      const res = await fetch("https://tlbe.onrender.com", {
+      const res = await fetch("https://tlbe.onrender.com/send-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
