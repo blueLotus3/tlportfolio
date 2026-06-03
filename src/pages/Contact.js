@@ -49,6 +49,7 @@ const Contact = () => {
         type="text"
         name="name"
         placeholder="Your Name"
+        autoComplete="name"
         required
       />
 
@@ -56,12 +57,14 @@ const Contact = () => {
         type="email"
         name="email"
         placeholder="Your Email"
+        autoComplete="email"
         required
       />
 
       <textarea
         name="message"
         placeholder="Your Message"
+        autoComplete="off"
         required
       />
 
