@@ -10,19 +10,17 @@ const Contact = () => {
     setLoading(true);
     setStatus("Sending...");
 
-    const formData = {
-      name: formRef.current.name.value,
-      email: formRef.current.email.value,
-      message: formRef.current.message.value,
-    };
-
     try {
       const res = await fetch("https://tlbe.onrender.com/send-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({formData}),
+        body: JSON.stringify({
+          name: formRef.current.name.value,
+          email: formRef.current.email.value,
+          message: formRef.current.message.value,
+        }),
       });
 
       const data = await res.json();
@@ -33,6 +31,7 @@ const Contact = () => {
 
       setStatus("Message sent successfully!");
       formRef.current.reset();
+
     } catch (err) {
       console.error("Send error:", err);
       setStatus("Failed to send message.");
