@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-
 const Contact = () => {
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
@@ -11,30 +10,39 @@ const Contact = () => {
     setStatus("Sending...");
 
     const form = e.target;
+    // 1. Convert FormData to a standard JSON object to bypass strict body/header blocks
+    const data = Object.fromEntries(new FormData(form));
 
     try {
       const res = await fetch("https://formspree.io/f/xwvzgnvv", {
         method: "POST",
-        body: new FormData(form),
+        body: JSON.stringify(data), // 2. Send as a clean JSON string
         headers: {
-          Accept: "application/json",
+          "Content-Type": "application/json", // 3. Explicitly tell the server it is JSON
+          "Accept": "application/json",
         },
       });
 
-      // 🔥 ADD THIS DEBUG (important for your case)
       console.log("STATUS:", res.status);
 
       if (res.ok) {
         setStatus("Message sent!");
         form.reset();
       } else {
-        const data = await res.json().catch(() => null);
-        console.log("ERROR RESPONSE:", data);
-        setStatus("Failed to send.");
+        const errData = await res.json().catch(() => null);
+        console.log("ERROR RESPONSE:", errData);
+        
+        // 4. Handle exact error reasons (like captcha blocks or missing fields)
+        if (errData && errData.errors) {
+          setStatus(errData.errors.map(err => err.message).join(", "));
+        } else {
+          setStatus("Failed to send.");
+        }
       }
     } catch (err) {
       console.error("FETCH ERROR:", err);
-      setStatus("Network error (failed to reach server).");
+      // 5. This catch block triggers if a local firewall, VPN, or AdBlocker kills the request entirely
+      setStatus("Network error. Please check your internet or disable ad blockers.");
     } finally {
       setLoading(false);
     }
