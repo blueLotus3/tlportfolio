@@ -10,16 +10,17 @@ const Contact = () => {
     setStatus("Sending...");
 
     const form = e.target;
-    // 1. Convert FormData to a standard JSON object to bypass strict body/header blocks
     const data = Object.fromEntries(new FormData(form));
 
     try {
+      // Formspree requires mode: "cors" and simple JSON structure to bypass local firewalls
       const res = await fetch("https://formspree.io/f/xwvzgnvv", {
         method: "POST",
-        body: JSON.stringify(data), // 2. Send as a clean JSON string
+        mode: "cors", // 👈 FORCE standard cross-origin configuration
+        body: JSON.stringify(data), 
         headers: {
-          "Content-Type": "application/json", // 3. Explicitly tell the server it is JSON
-          "Accept": "application/json",
+          "Content-Type": "application/json", 
+          // ❌ Removed 'Accept': 'application/json' to stop aggressive preflight firewall checks
         },
       });
 
@@ -32,7 +33,6 @@ const Contact = () => {
         const errData = await res.json().catch(() => null);
         console.log("ERROR RESPONSE:", errData);
         
-        // 4. Handle exact error reasons (like captcha blocks or missing fields)
         if (errData && errData.errors) {
           setStatus(errData.errors.map(err => err.message).join(", "));
         } else {
@@ -41,7 +41,6 @@ const Contact = () => {
       }
     } catch (err) {
       console.error("FETCH ERROR:", err);
-      // 5. This catch block triggers if a local firewall, VPN, or AdBlocker kills the request entirely
       setStatus("Network error. Please check your internet or disable ad blockers.");
     } finally {
       setLoading(false);
