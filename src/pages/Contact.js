@@ -1,69 +1,43 @@
-import { useState } from "react";
+import { useForm, ValidationError } from "@formspree/react";
 
 const Contact = () => {
-  const [status, setStatus] = useState("");
-  const [loading, setLoading] = useState(false);
+  // The SDK handles all loading, error catching, and ad-blocker fallbacks automatically
+  const [state, handleSubmit] = useForm("xwvzgnvv");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setStatus("Sending...");
-
-    const form = e.target;
-    
-    // 1. Convert FormData into URL-encoded format (looks like standard browser navigation)
-    const formData = new FormData(form);
-    const searchParams = new URLSearchParams(formData);
-
-    try {
-      const res = await fetch("https://formspree.io", {
-        method: "POST",
-        body: searchParams, // 2. Send the clean query string format
-        headers: {
-          // 3. Keep headers entirely blank. 
-          // The browser automatically injects the safest content type to avoid firewall flags.
-        },
-      });
-
-      console.log("STATUS:", res.status);
-
-      if (res.ok) {
-        setStatus("Message sent!");
-        form.reset();
-      } else {
-        const errData = await res.json().catch(() => null);
-        console.log("ERROR RESPONSE:", errData);
-        
-        if (errData && errData.errors) {
-          setStatus(errData.errors.map(err => err.message).join(", "));
-        } else {
-          setStatus("Failed to send.");
-        }
-      }
-    } catch (err) {
-      console.error("FETCH ERROR:", err);
-      setStatus("Network error. Please check your internet or disable ad blockers.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  if (state.succeeded) {
+    return (
+      <div className="contact-form success-message">
+        <h2>Thank You!</h2>
+        <p>Your message has been sent successfully. I will get back to you shortly.</p>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit} className="contact-form">
       <h2>Contact Me</h2>
 
       <input type="text" name="name" placeholder="Your Name" required />
-      <input type="email" name="email" placeholder="Your Email" required />
-      <textarea name="message" placeholder="Your Message" required />
 
-      <button type="submit" disabled={loading}>
-        {loading ? "Sending..." : "Send Message"}
+      <input type="email" name="email" placeholder="Your Email" required />
+      <ValidationError prefix="Email" field="email" errors={state.errors} />
+
+      <textarea name="message" placeholder="Your Message" required />
+      <ValidationError prefix="Message" field="message" errors={state.errors} />
+
+      <button type="submit" disabled={state.submitting}>
+        {state.submitting ? "Sending..." : "Send Message"}
       </button>
 
-      {status && <p>{status}</p>}
+      {state.errors && state.errors.length > 0 && (
+        <p style={{ color: "red" }}>
+          Failed to send. Please verify your details and try again.
+        </p>
+      )}
     </form>
   );
 };
 
 export default Contact;
+
 
