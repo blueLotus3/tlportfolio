@@ -10,17 +10,18 @@ const Contact = () => {
     setStatus("Sending...");
 
     const form = e.target;
-    const data = Object.fromEntries(new FormData(form));
+    
+    // 1. Convert FormData into URL-encoded format (looks like standard browser navigation)
+    const formData = new FormData(form);
+    const searchParams = new URLSearchParams(formData);
 
     try {
-      // Formspree requires mode: "cors" and simple JSON structure to bypass local firewalls
-      const res = await fetch("https://formspree.io/f/xwvzgnvv", {
+      const res = await fetch("https://formspree.io", {
         method: "POST",
-        mode: "cors", // 👈 FORCE standard cross-origin configuration
-        body: JSON.stringify(data), 
+        body: searchParams, // 2. Send the clean query string format
         headers: {
-          "Content-Type": "application/json", 
-          // ❌ Removed 'Accept': 'application/json' to stop aggressive preflight firewall checks
+          // 3. Keep headers entirely blank. 
+          // The browser automatically injects the safest content type to avoid firewall flags.
         },
       });
 
@@ -65,3 +66,4 @@ const Contact = () => {
 };
 
 export default Contact;
+
