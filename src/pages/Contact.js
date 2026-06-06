@@ -1,9 +1,17 @@
+import React from 'react';
 import { useForm, ValidationError } from "@formspree/react";
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 const Contact = () => {
   // The SDK handles all loading, error catching, and ad-blocker fallbacks automatically
-  const [state, handleSubmit] = useForm("xwvzgnvv");
-
+  const { executeRecaptcha } = useGoogleReCaptcha();
+  
+  const [state, handleSubmit] = useForm("xwvzgnvv", {
+    data: {
+      "g-recaptcha-response": executeRecaptcha
+    }
+  });
+  
   if (state.succeeded) {
     return (
       <div className="contact-form success-message">
@@ -39,5 +47,3 @@ const Contact = () => {
 };
 
 export default Contact;
-
-
